@@ -2,6 +2,7 @@
 
 namespace Alura\Calisthenics\Domain\Student;
 
+use Alura\Calisthenics\Domain\Video\Video;
 use Ds\Map;
 
 class WatchedVideos implements \Countable

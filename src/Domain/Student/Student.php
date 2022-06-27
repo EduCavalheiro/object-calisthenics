@@ -10,35 +10,33 @@ use Ds\Map;
 class Student
 {
     private Email $email;
-    private DateTimeInterface $bd;
-    private Map $watchedVideos;
-    private string $fName;
-    private string $lName;
+    private DateTimeInterface $birthDate;
+    private WatchedVideos $watchedVideos;
     public string $street;
     public string $number;
     public string $province;
     public string $city;
     public string $state;
     public string $country;
+    private FullName $fullName;
 
-    public function __construct(Email $email, DateTimeInterface $bd, string $fName, string $lName, string $street, string $number, string $province, string $city, string $state, string $country)
+    public function __construct(Email $email, DateTimeInterface $bd, FullName $fullName, string $street, string $number, string $province, string $city, string $state, string $country)
     {
-        $this->watchedVideos = new Map();
+        $this->watchedVideos = new WatchedVideos();
         $this->email = $email;
-        $this->bd = $bd;
-        $this->fName = $fName;
-        $this->lName = $lName;
+        $this->birthDate = $bd;
         $this->street = $street;
         $this->number = $number;
         $this->province = $province;
         $this->city = $city;
         $this->state = $state;
         $this->country = $country;
+        $this->fullName = $fullName;
     }
 
     public function getFullName(): string
     {
-        return "{$this->fName} {$this->lName}";
+        return (string) $this->fullName;
     }
 
     public function getEmail(): string
@@ -46,14 +44,14 @@ class Student
         return $this->email;
     }
 
-    public function getBd(): DateTimeInterface
+    public function getBirthDate(): DateTimeInterface
     {
-        return $this->bd;
+        return $this->birthDate;
     }
 
     public function watch(Video $video, DateTimeInterface $date)
     {
-        $this->watchedVideos->put($video, $date);
+        $this->watchedVideos->add($video, $date);
     }
 
     public function hasAccess(): bool
@@ -69,6 +67,6 @@ class Student
 
     public function age(): int
     {
-        return $this->bd->diff(new \DateTimeImmutable())->y;
+        return $this->birthDate->diff(new \DateTimeImmutable())->y;
     }
 }
